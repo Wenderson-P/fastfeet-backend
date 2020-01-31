@@ -34,7 +34,7 @@ describe('Session', () => {
   });
 
   it('should register and make user login', async () => {
-    const user = await factory.attrs('User');
+    const user = await factory.attrs('Admin');
 
     await request(app)
       .post(`/users`)
