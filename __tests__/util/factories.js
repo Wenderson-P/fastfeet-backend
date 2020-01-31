@@ -10,6 +10,12 @@ factory.define('User', User, {
   password: faker.internet.password(),
 });
 
+factory.define('Admin', User, {
+  name: 'admin',
+  email: 'admin@fastfeet.com',
+  password: '123456',
+});
+
 factory.define('Recipient', Recipient, {
   name: faker.name.findName(),
   street: faker.address.streetName(),
