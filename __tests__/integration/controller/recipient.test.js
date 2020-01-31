@@ -18,6 +18,6 @@ describe('Recipient', () => {
       .post(`/recipient`)
       .send(recipient);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 });
