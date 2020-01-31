@@ -10,7 +10,7 @@
   </p>
 
 
-<h4 align="center">Study project for a fictional carrier</h4>
+<h4 align="center">This is a API REST  made in node for a fictional carrier</h4>
 
 ## :wrench: Tools used
 
