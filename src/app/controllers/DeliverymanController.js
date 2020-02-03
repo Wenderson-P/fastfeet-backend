@@ -1,7 +1,7 @@
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 
-class UserController {
+class DeliverymanController {
   async index(req, res) {
     const deliverymen = await Deliveryman.findAll({
       attributes: ['id', 'name', 'email', 'avatar_id'],
@@ -36,6 +36,36 @@ class UserController {
 
     return res.json(deliveryman);
   }
+
+  async update(req, res) {
+    const { id } = req.params;
+
+    const deliveryman = await Deliveryman.findByPk(id);
+
+    if (!deliveryman) {
+      return res.status(400).json({ error: 'Deliveryman does not found.' });
+    }
+
+    const { email } = req.body;
+
+    if (email !== deliveryman.email) {
+      const deliverymanExists = await Deliveryman.findOne({
+        where: { email },
+      });
+
+      if (deliverymanExists) {
+        return res.status(400).json({ error: 'Deliveryman already exists' });
+      }
+    }
+
+    const { name, avatar_id } = await deliveryman.update(req.body);
+
+    return res.json({
+      name,
+      email,
+      avatar_id,
+    });
+  }
 }
 
-export default new UserController();
+export default new DeliverymanController();
