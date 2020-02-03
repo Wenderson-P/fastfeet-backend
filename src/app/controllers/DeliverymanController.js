@@ -2,6 +2,17 @@ import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 
 class UserController {
+  async index(req, res) {
+    const deliverymen = await Deliveryman.findAll({
+      attributes: ['id', 'name', 'email', 'avatar_id'],
+      include: [
+        { model: File, as: 'avatar', attributes: ['name', 'path', 'url'] },
+      ],
+    });
+
+    return res.json(deliverymen);
+  }
+
   async store(req, res) {
     const { avatar_id, email } = req.body;
 
