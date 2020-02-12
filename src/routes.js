@@ -39,5 +39,9 @@ routes.put('/delivery/:id', DeliveryController.update);
 routes.delete('/delivery/:id', DeliveryController.delete);
 
 routes.get('/deliveryman/:id/deliveries', DeliveriesController.index);
-
+routes.put(
+  '/deliveryman/:id/deliveries',
+  upload.single('file'),
+  DeliveriesController.update
+);
 export default routes;
