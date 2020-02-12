@@ -14,6 +14,9 @@ class DeliveryController {
         'deliveryman_id',
         'recipient_id',
         'signature_id',
+        'start_date',
+        'end_date',
+        'canceled_at',
       ],
       include: [
         {
