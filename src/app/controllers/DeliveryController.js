@@ -4,7 +4,26 @@ import File from '../models/File';
 import Recipient from '../models/Recipient';
 
 class DeliveryController {
-  async index(req, res) { }
+  async index(req, res) {
+    const delivery = await Delivery.findAll({
+      attributes: [
+        'id',
+        'product',
+        'deliveryman_id',
+        'recipient_id',
+        'signature_id',
+      ],
+      include: [
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
+
+    return res.json(delivery);
+  }
 
   async store(req, res) {
     const { recipient_id, deliveryman_id } = req.body;
