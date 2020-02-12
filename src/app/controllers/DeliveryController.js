@@ -28,6 +28,16 @@ class DeliveryController {
   }
 
   async store(req, res) {
+    const schema = Yup.object().shape({
+      product: Yup.string().required(),
+      recipient_id: Yup.number().required(),
+      deliveryman_id: Yup.number().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
+
     const { recipient_id, deliveryman_id } = req.body;
 
     const deliveryman = await Deliveryman.findByPk(deliveryman_id);
@@ -63,6 +73,7 @@ class DeliveryController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails.' });
     }
+
     const { id } = req.params;
     const delivery = await Deliveryman.findByPk(id);
 
