@@ -1,4 +1,5 @@
 import { setHours, setMinutes, isBefore, isAfter } from 'date-fns';
+import * as Yup from 'yup';
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
@@ -51,6 +52,17 @@ class DeliveryController {
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      product: Yup.string(),
+      start_date: Yup.date(),
+      recipient_id: Yup.number(),
+      deliveryman_id: Yup.number(),
+      signature_id: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
     const { id } = req.params;
     const delivery = await Deliveryman.findByPk(id);
 
