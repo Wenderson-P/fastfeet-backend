@@ -1,4 +1,3 @@
-import { setHours, setMinutes, isBefore, isAfter } from 'date-fns';
 import * as Yup from 'yup';
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
@@ -110,18 +109,6 @@ class DeliveryController {
       if (!signature) {
         return res.status(400).json({ error: 'Signature does not exists.' });
       }
-    }
-    const timeNow = new Date();
-    const availableStartTime = setHours(setMinutes(timeNow, 0), 8);
-    const availableEndTime = setHours(setMinutes(timeNow, 0), 18);
-
-    if (
-      isBefore(timeNow, availableStartTime) ||
-      isAfter(timeNow, availableEndTime)
-    ) {
-      return res
-        .status(401)
-        .json({ error: "Retrieves can't happen at this hour" });
     }
 
     await delivery.update(req.body);
