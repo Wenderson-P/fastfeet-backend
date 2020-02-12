@@ -108,7 +108,7 @@ class DeliveryController {
       });
 
       if (!signature) {
-        return res.status(400).json({ error: 'Signature does not found.' });
+        return res.status(400).json({ error: 'Signature does not exists.' });
       }
     }
     const timeNow = new Date();
