@@ -50,6 +50,15 @@ class DeliverymanController {
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
     const { id } = req.params;
 
     const deliveryman = await Deliveryman.findByPk(id);
