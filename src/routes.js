@@ -45,8 +45,8 @@ routes.put(
   upload.single('file'),
   DeliveriesController.update
 );
-
 routes.get('/delivery/problems', DeliveryProblemController.index);
+routes.get('/delivery/:id/problems', DeliveryProblemController.index);
 routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 
 export default routes;
