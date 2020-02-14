@@ -4,13 +4,32 @@ import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliveryController {
   async index(req, res) {
+    const { id: delivery_id } = req.params;
+
+    if (delivery_id) {
+      const deliveryProblem = await DeliveryProblem.findAll({
+        attributes: [['id', 'problem_id'], 'description'],
+        include: [
+          {
+            model: Delivery,
+            as: 'delivery',
+            attributes: ['id', 'product'],
+          },
+        ],
+        where: {
+          delivery_id,
+        },
+      });
+      return res.json(deliveryProblem);
+    }
+
     const deliveryProblem = await DeliveryProblem.findAll({
-      attributes: [['id', 'problem_id'], 'description'],
+      attributes: ['id', 'description'],
       include: [
         {
           model: Delivery,
           as: 'delivery',
-          attributes: [['id'], 'product'],
+          attributes: ['id', 'product'],
         },
       ],
     });
