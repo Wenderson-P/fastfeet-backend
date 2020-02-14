@@ -10,6 +10,7 @@ import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
 import DeliveriesController from './app/controllers/DeliveriesController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -44,4 +45,7 @@ routes.put(
   upload.single('file'),
   DeliveriesController.update
 );
+
+routes.get('/delivery/problems', DeliveryProblemController.index);
+
 export default routes;
