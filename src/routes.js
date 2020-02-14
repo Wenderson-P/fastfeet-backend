@@ -47,5 +47,6 @@ routes.put(
 );
 
 routes.get('/delivery/problems', DeliveryProblemController.index);
+routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 
 export default routes;
