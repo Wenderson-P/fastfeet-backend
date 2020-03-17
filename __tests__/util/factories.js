@@ -3,6 +3,7 @@ import { factory } from 'factory-girl';
 
 import User from '../../src/app/models/User';
 import Recipient from '../../src/app/models/Recipient';
+import Deliveryman from '../../src/app/models/Deliveryman';
 
 factory.define('User', User, {
   name: faker.name.findName(),
@@ -26,4 +27,9 @@ factory.define('Recipient', Recipient, {
   cep: 64000000,
 });
 
+factory.define('Deliveryman', Deliveryman, {
+  name: faker.name.findName(),
+  email: faker.internet.email(),
+  avatar: faker.image.avatar(),
+});
 export default factory;

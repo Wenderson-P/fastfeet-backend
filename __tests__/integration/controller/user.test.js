@@ -42,4 +42,18 @@ describe('User', () => {
       .send(user);
     expect(response.status).toBe(400);
   });
+
+  it('should register and make user login', async () => {
+    const user = await factory.attrs('Admin');
+
+    await request(app)
+      .post(`/users`)
+      .send(user);
+
+    const response = await request(app)
+      .post(`/sessions`)
+      .send(user);
+
+    expect(response.body).toHaveProperty('token');
+  });
 });
