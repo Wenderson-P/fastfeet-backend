@@ -66,6 +66,27 @@ class DeliveryController {
       });
     }
   }
+
+  async update(req, res) {
+    const { id } = req.params;
+
+    const delivery = await Delivery.findByPk(id);
+
+    if (!delivery) {
+      return res.status(400).json({ error: 'Delivery does not exists.' });
+    }
+
+    await delivery.update(
+      { canceled_at: new Date() },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+
+    return res.json('Delivery was canceled');
+  }
 }
 
 export default new DeliveryController();
