@@ -58,6 +58,14 @@ class DeliveriesController {
       return res.status(400).json({ error: "Delivery don't exists" });
     }
 
+    if (delivery.end_date !== null) {
+      return res.status(400).json({ error: 'Delivery was delivered' });
+    }
+
+    if (delivery.canceled_at !== null) {
+      return res.status(400).json({ error: 'Delivery was canceled' });
+    }
+
     if (req.file) {
       const { originalname: name, filename: path } = req.file;
 
@@ -76,6 +84,10 @@ class DeliveriesController {
       return res.json({
         sucess: 'Delivery finished',
       });
+    }
+
+    if (delivery.start_date !== null) {
+      return res.status(400).json({ error: 'Delivery was already retrieved' });
     }
 
     const today = new Date();
