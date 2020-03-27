@@ -23,6 +23,16 @@ class DeliveryController {
           as: 'signature',
           attributes: ['name', 'path', 'url'],
         },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name', 'city', 'state'],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'avatar_id'],
+        },
       ],
     });
 
