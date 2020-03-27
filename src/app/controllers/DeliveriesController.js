@@ -51,7 +51,7 @@ class DeliveriesController {
 
     const delivery = await Delivery.findOne({
       where: { id: delivery_id },
-      attributes: ['id', 'product'],
+      attributes: ['id', 'product', 'end_date', 'canceled_at', 'start_date'],
     });
 
     if (!delivery) {
