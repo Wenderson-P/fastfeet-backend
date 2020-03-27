@@ -143,7 +143,7 @@ class DeliveriesController {
     );
 
     return res.json({
-      sucess: 'Delivery retrieved',
+      success: 'Delivery retrieved',
     });
   }
 }
