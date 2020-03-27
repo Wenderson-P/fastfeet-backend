@@ -135,10 +135,12 @@ class DeliveriesController {
         error: 'The deliveryman has already made five retrieves today',
       });
     }
-
-    await delivery.update({
-      start_date,
-    });
+    await delivery.update(
+      {
+        start_date: today,
+      },
+      { where: { id: delivery_id } }
+    );
 
     return res.json({
       sucess: 'Delivery retrieved',
