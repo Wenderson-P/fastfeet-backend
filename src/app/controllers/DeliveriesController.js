@@ -24,6 +24,7 @@ class DeliveriesController {
           end_date: { [Op.not]: null },
         },
         attributes: ['id', 'product', 'start_date', 'end_date', 'recipient_id'],
+        order: ['id'],
       });
       return res.json(deliveries);
     }
