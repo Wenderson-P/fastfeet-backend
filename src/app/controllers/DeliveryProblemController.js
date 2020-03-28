@@ -19,6 +19,7 @@ class DeliveryController {
         where: {
           delivery_id,
         },
+        order: ['id'],
       });
       return res.json(deliveryProblem);
     }
