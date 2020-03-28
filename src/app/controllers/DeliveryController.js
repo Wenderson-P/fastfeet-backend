@@ -17,6 +17,7 @@ class DeliveryController {
         'end_date',
         'canceled_at',
       ],
+      order: ['id'],
       include: [
         {
           model: File,
