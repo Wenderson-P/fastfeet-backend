@@ -9,6 +9,7 @@ class DeliverymanController {
       include: [
         { model: File, as: 'avatar', attributes: ['name', 'path', 'url'] },
       ],
+      order: ['id'],
     });
 
     return res.json(deliverymen);
