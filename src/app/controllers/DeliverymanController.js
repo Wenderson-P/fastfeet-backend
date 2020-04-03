@@ -5,7 +5,13 @@ import File from '../models/File';
 
 class DeliverymanController {
   async index(req, res) {
-    const { q } = req.query;
+    const { q, page = 1 } = req.query;
+
+    let offset = (page - 1) * 5;
+
+    if (offset <= 0) {
+      offset = 0;
+    }
 
     if (q) {
       const deliverymen = await Deliveryman.findAll({
@@ -14,6 +20,8 @@ class DeliverymanController {
           { model: File, as: 'avatar', attributes: ['name', 'path', 'url'] },
         ],
         order: ['id'],
+        limit: 5,
+        offset,
         where: {
           name: {
             [Op.iLike]: `%${q}%`,
@@ -29,6 +37,8 @@ class DeliverymanController {
         { model: File, as: 'avatar', attributes: ['name', 'path', 'url'] },
       ],
       order: ['id'],
+      limit: 5,
+      offset,
     });
 
     return res.json(deliverymen);
