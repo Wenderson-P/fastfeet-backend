@@ -7,7 +7,13 @@ import Recipient from '../models/Recipient';
 
 class DeliveryController {
   async index(req, res) {
-    const { q } = req.query;
+    const { q, page = 1 } = req.query;
+
+    let offset = (page - 1) * 5;
+
+    if (offset <= 0) {
+      offset = 0;
+    }
 
     if (q) {
       const delivery = await Delivery.findAll({
@@ -22,6 +28,8 @@ class DeliveryController {
           'canceled_at',
         ],
         order: ['id'],
+        limit: 5,
+        offset,
         where: {
           product: {
             [Op.iLike]: `%${q}%`,
@@ -67,6 +75,8 @@ class DeliveryController {
         'canceled_at',
       ],
       order: ['id'],
+      limit: 5,
+      offset,
       include: [
         {
           model: File,
