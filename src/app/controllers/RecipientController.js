@@ -4,7 +4,13 @@ import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const { q } = req.query;
+    const { q, page = 1 } = req.query;
+
+    let offset = (page - 1) * 8;
+
+    if (offset <= 0) {
+      offset = 0;
+    }
 
     if (q) {
       const recipients = await Recipient.findAll({
@@ -14,10 +20,16 @@ class RecipientController {
             [Op.iLike]: `%${q}%`,
           },
         },
+        limit: 8,
+        offset,
       });
       return res.json(recipients);
     }
-    const recipients = await Recipient.findAll({ order: ['id'] });
+    const recipients = await Recipient.findAll({
+      order: ['id'],
+      limit: 8,
+      offset,
+    });
 
     return res.json(recipients);
   }
