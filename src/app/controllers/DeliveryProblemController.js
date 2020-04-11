@@ -2,9 +2,16 @@ import * as Yup from 'yup';
 import Delivery from '../models/Delivery';
 import DeliveryProblem from '../models/DeliveryProblem';
 
-class DeliveryController {
+class DeliveryProblemController {
   async index(req, res) {
     const { id: delivery_id } = req.params;
+    const { page = 1 } = req.query;
+
+    let offset = (page - 1) * 8;
+
+    if (offset <= 0) {
+      offset = 0;
+    }
 
     if (delivery_id) {
       const deliveryProblem = await DeliveryProblem.findAll({
@@ -19,6 +26,8 @@ class DeliveryController {
         where: {
           delivery_id,
         },
+        limit: 8,
+        offset,
         order: ['id'],
       });
       return res.json(deliveryProblem);
@@ -33,6 +42,8 @@ class DeliveryController {
           attributes: ['id', 'product'],
         },
       ],
+      limit: 8,
+      offset,
     });
 
     return res.json(deliveryProblem);
@@ -90,4 +101,4 @@ class DeliveryController {
   }
 }
 
-export default new DeliveryController();
+export default new DeliveryProblemController();
