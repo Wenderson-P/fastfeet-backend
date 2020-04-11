@@ -9,13 +9,13 @@ module.exports = {
       },
       recipient_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'recipients',
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'NO ACTION',
       },
       deliveryman_id: {
         type: Sequelize.INTEGER,
@@ -25,7 +25,7 @@ module.exports = {
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'NO ACTION',
       },
       signature_id: {
         type: Sequelize.INTEGER,
