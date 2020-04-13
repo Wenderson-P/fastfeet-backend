@@ -10,6 +10,7 @@ import {
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
+import Recipient from '../models/Recipient';
 
 class DeliveriesController {
   async index(req, res) {
@@ -23,6 +24,13 @@ class DeliveriesController {
           deliveryman_id: id,
           end_date: { [Op.not]: null },
         },
+        include: [
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: ['name', 'street', 'number', 'city', 'state', 'cep'],
+          },
+        ],
         attributes: ['id', 'product', 'start_date', 'end_date', 'recipient_id'],
         order: ['id'],
       });
@@ -34,7 +42,15 @@ class DeliveriesController {
         end_date: null,
         canceled_at: null,
       },
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name', 'street', 'number', 'city', 'state', 'cep'],
+        },
+      ],
       attributes: ['id', 'product', 'start_date', 'end_date', 'recipient_id'],
+      order: ['id'],
     });
     return res.json(deliveries);
   }
