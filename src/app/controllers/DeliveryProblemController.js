@@ -15,7 +15,7 @@ class DeliveryProblemController {
 
     if (delivery_id) {
       const deliveryProblem = await DeliveryProblem.findAll({
-        attributes: [['id', 'problem_id'], 'description'],
+        attributes: [['id', 'problem_id'], 'description', 'created_at'],
         include: [
           {
             model: Delivery,
