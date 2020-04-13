@@ -44,6 +44,22 @@ class DeliverymanController {
     return res.json(deliverymen);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const deliveryman = await Deliveryman.findByPk(id, {
+      attributes: ['id', 'name', 'email'],
+      include: [
+        { model: File, as: 'avatar', attributes: ['name', 'path', 'url'] },
+      ],
+    });
+
+    if (!deliveryman) {
+      return res.status(400).json({ error: 'Deliveryman was not found.' });
+    }
+    return res.json(deliveryman);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -94,7 +110,7 @@ class DeliverymanController {
     const deliveryman = await Deliveryman.findByPk(id);
 
     if (!deliveryman) {
-      return res.status(400).json({ error: 'Deliveryman does not found.' });
+      return res.status(400).json({ error: 'Deliveryman was not found.' });
     }
 
     const { email } = req.body;
