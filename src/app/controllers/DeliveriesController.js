@@ -83,6 +83,7 @@ class DeliveriesController {
       return res.status(400).json({ error: 'Delivery was canceled' });
     }
 
+    // If file is sending in the body
     if (req.file) {
       const { originalname: name, filename: path } = req.file;
 
@@ -98,6 +99,24 @@ class DeliveriesController {
         signature_id,
       });
 
+      return res.json({
+        sucess: 'Delivery finished',
+      });
+    }
+    // If file is sending in the body
+    const { signature_id } = req.body;
+
+    if (signature_id) {
+      if (delivery.start_date === null) {
+        return res.status(400).json({ error: 'Delivery was not retrieved' });
+      }
+
+      const end_date = new Date();
+
+      await delivery.update({
+        end_date,
+        signature_id,
+      });
       return res.json({
         sucess: 'Delivery finished',
       });
