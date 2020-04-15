@@ -4,6 +4,7 @@ import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 import Recipient from '../models/Recipient';
+import Mail from '../../lib/Mail';
 
 class DeliveryController {
   async index(req, res) {
@@ -133,7 +134,11 @@ class DeliveryController {
 
     try {
       const delivery = await Delivery.create(req.body);
-
+      await Mail.sendMail({
+        to: `${deliveryman.name} <${deliveryman.email}>`,
+        subject: 'Nova entrega para ser retirada',
+        text: 'Existe uma nova entrega para você retirar',
+      });
       return res.json(delivery);
     } catch (err) {
       return res.status(500).json({ error: 'Error creating delivery' });
