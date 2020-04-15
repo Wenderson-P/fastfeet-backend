@@ -1,6 +1,11 @@
 import * as Yup from 'yup';
 import Delivery from '../models/Delivery';
+import Deliveryman from '../models/Deliveryman';
+import Recipient from '../models/Recipient';
 import DeliveryProblem from '../models/DeliveryProblem';
+
+import Queue from '../../lib/Queue';
+import CancellationMail from '../jobs/CancellationMail';
 
 class DeliveryProblemController {
   async index(req, res) {
@@ -82,7 +87,20 @@ class DeliveryProblemController {
   async update(req, res) {
     const { id } = req.params;
 
-    const delivery = await Delivery.findByPk(id);
+    const delivery = await Delivery.findByPk(id, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name'],
+        },
+      ],
+    });
 
     if (!delivery) {
       return res.status(400).json({ error: 'Delivery does not exists.' });
@@ -96,7 +114,9 @@ class DeliveryProblemController {
         },
       }
     );
-
+    await Queue.add(CancellationMail.key, {
+      delivery,
+    });
     return res.json('Delivery was canceled');
   }
 }
