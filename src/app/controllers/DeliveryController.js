@@ -163,7 +163,7 @@ class DeliveryController {
     }
 
     const { id } = req.params;
-    const delivery = await Deliveryman.findByPk(id);
+    const delivery = await Delivery.findByPk(id);
 
     if (!delivery) {
       return res.status(400).json({ error: 'Delivery does not exists' });
