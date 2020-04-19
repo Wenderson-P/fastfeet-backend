@@ -83,27 +83,7 @@ class DeliveriesController {
       return res.status(400).json({ error: 'Delivery was canceled' });
     }
 
-    // If file is sending in the body
-    if (req.file) {
-      const { originalname: name, filename: path } = req.file;
-
-      const { id: signature_id } = await File.create({
-        name,
-        path,
-      });
-
-      const end_date = new Date();
-
-      await delivery.update({
-        end_date,
-        signature_id,
-      });
-
-      return res.json({
-        sucess: 'Delivery finished',
-      });
-    }
-    // If file is sending in the body
+    // If signature_id is sending in the body
     const { signature_id } = req.body;
 
     if (signature_id) {
@@ -134,7 +114,6 @@ class DeliveriesController {
       where: { deliveryman_id, start_date: { [Op.gte]: startOfTheWeek } },
     });
 
-    let retrievesMadeWeek = 0;
     let retrievesToday = 0;
 
     const start_date = new Date();
@@ -154,17 +133,7 @@ class DeliveriesController {
       if (isToday(checkin.createdAt)) {
         retrievesToday += 1;
       }
-      if (isAfter(checkin.createdAt, startOfTheWeek)) {
-        retrievesMadeWeek += 1;
-      }
     });
-
-    if (retrievesMadeWeek >= 5) {
-      return res.status(400).json({
-        error:
-          'The deliveryman has already done all the allowed retrieves of the week',
-      });
-    }
 
     if (retrievesToday >= 5) {
       return res.status(400).json({
