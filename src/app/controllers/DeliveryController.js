@@ -168,7 +168,7 @@ class DeliveryController {
     if (!delivery) {
       return res.status(400).json({ error: 'Delivery does not exists' });
     }
-    // Checking update in recipient or delivery man
+
     const { recipient_id, deliveryman_id } = req.body;
 
     const deliveryman = await Deliveryman.findByPk(deliveryman_id);
@@ -181,20 +181,6 @@ class DeliveryController {
 
     if (!recipient) {
       return res.status(400).json({ error: 'Recipient does not exists.' });
-    }
-
-    const { signature_id } = req.body;
-
-    if (signature_id) {
-      const signature = await File.findOne({
-        where: {
-          id: signature_id,
-        },
-      });
-
-      if (!signature) {
-        return res.status(400).json({ error: 'Signature does not exists.' });
-      }
     }
 
     await delivery.update(req.body);
